@@ -35,19 +35,19 @@ public class AccountTests {
     @Description("This test attempts to create user using generated user token")
     @Severity(SeverityLevel.CRITICAL)
     @ArgumentsSource(UsersParameters.class)
-    public void CreateUser(LoginViewModel login){
-        userResult = CreateUserStep(login);
-        token = GenerateTokenStep(login);
+    public void CreateUser(LoginViewModel user){
+        userResult = CreateUserStep(user);
+        token = GenerateTokenStep(user);
     }
 
     @ParameterizedTest
     @DisplayName("Create, Login And Get Client")
     @Severity(SeverityLevel.NORMAL)
     @ArgumentsSource(UsersParameters.class)
-    public void CreateAndGetClient(LoginViewModel login){
-        userResult = CreateUserStep(login);
-        token = GenerateTokenStep(login);
-        LoginUserStep(login);
+    public void CreateAndGetClient(LoginViewModel user){
+        userResult = CreateUserStep(user);
+        token = GenerateTokenStep(user);
+        LoginUserStep(user);
         GetUserStep(userResult, token);
     }
 
@@ -55,10 +55,10 @@ public class AccountTests {
     @DisplayName("Create, Login, Get, Add List of Books Client")
     @Severity(SeverityLevel.CRITICAL)
     @ArgumentsSource(UsersParameters.class)
-    public void CreateAddAndBooksClient(LoginViewModel login){
-        userResult = CreateUserStep(login);
-        token = GenerateTokenStep(login);
-        LoginModel loginModel = LoginUserStep(login);
+    public void CreateAddAndBooksClient(LoginViewModel user){
+        userResult = CreateUserStep(user);
+        token = GenerateTokenStep(user);
+        LoginModel loginModel = LoginUserStep(user);
         GetUserStep(userResult, token);
         List<CollectionOfIsbn> isbnList = GetAllBooksStep();
         AddListOfBooksStep(loginModel, isbnList);

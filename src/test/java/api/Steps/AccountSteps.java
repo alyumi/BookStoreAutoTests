@@ -7,6 +7,7 @@ import api.ValueObject.Model.TokenViewModel;
 import api.ValueObject.Result.CreateUserResult;
 import api.ValueObject.Result.GetUserResult;
 import io.qameta.allure.Step;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 
 import static api.Assertions.AccountAssert.*;
@@ -15,16 +16,21 @@ import static org.junit.jupiter.api.Assertions.*;
 import io.qameta.allure.restassured.AllureRestAssured;
 
 public class AccountSteps {
+
+    @BeforeAll
+    public static void SetUp(){
+        Specifications.InstallSpecifications(Specifications.requestAccountSpec());
+    }
+
     @DisplayName("CreateUserStep")
     @Step
     public static CreateUserResult CreateUserStep(LoginViewModel login){
-        Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(201));
-
         CreateUserResult resp = given()
                 .when()
                 .body(login)
                 .post("User")
                 .then().log().all()
+                .statusCode(201)
                 .extract().body().as(CreateUserResult.class);
 
         SuccessfulUserCreationAssert(login, resp);
@@ -35,7 +41,6 @@ public class AccountSteps {
     @DisplayName("GetUserStep")
     @Step
     public static void GetUserStep(CreateUserResult user, TokenViewModel token){
-        Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(200));
         GetUserResult resp = given()
                 .header(
                         "Authorization", "Bearer " + token.getToken()
@@ -43,7 +48,7 @@ public class AccountSteps {
                 .when()
                 .get("User/" + user.getUserId())
                 .then().log().all()
-                .log().headers()
+                .statusCode(200)
                 .extract().body().as(GetUserResult.class);
 
         SuccessfulUserGetAssert(user, resp);
@@ -52,27 +57,26 @@ public class AccountSteps {
     @DisplayName("DeleteUserStep")
     @Step
     public static void DeleteUserStep(CreateUserResult user, TokenViewModel token){
-        Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(204));
-
         given()
                 .header(
                         "Authorization", "Bearer " + token.getToken()
                 )
                 .when()
                 .delete("User/" + user.getUserId())
-                .then().log().all();
+                .then().log().all()
+                .statusCode(204);
     }
 
     @DisplayName("GenerateTokenStep")
     @Step
     public static TokenViewModel GenerateTokenStep(LoginViewModel login){
-        Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(200));
         TokenViewModel resp = given()
                 .filter(new AllureRestAssured())
                 .when()
                 .body(login)
                 .post("GenerateToken")
                 .then().log().all()
+                .statusCode(200)
                 .extract().body().as(TokenViewModel.class);
 
         SuccessfulAuthorizationAssert(resp);
@@ -83,12 +87,12 @@ public class AccountSteps {
     @DisplayName("LoginUserStep")
     @Step
     public static LoginModel LoginUserStep(LoginViewModel login){
-        Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(200));
         LoginModel resp = given()
                 .when()
                 .body(login)
                 .post("Login")
                 .then().log().all()
+                .statusCode(200)
                 .extract().body().as(LoginModel.class);
 
         SuccessfulLoginAssert(login, resp);

@@ -17,6 +17,10 @@ public class Specifications {
         RestAssured.responseSpecification = response;
     }
 
+    public static void InstallSpecifications(RequestSpecification request){
+        RestAssured.requestSpecification = request;
+    }
+
     public static RequestSpecification requestAccountSpec(){
         final String URL = "https://demoqa.com/Account/v1/";
 
