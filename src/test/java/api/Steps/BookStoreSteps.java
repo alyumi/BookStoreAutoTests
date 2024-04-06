@@ -7,6 +7,7 @@ import api.ValueObject.Model.AllBooksModel;
 import api.ValueObject.Model.BookModel;
 import api.ValueObject.Model.LoginModel;
 import api.ValueObject.Model.LoginViewModel;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BookStoreSteps {
     @DisplayName("GetAllBooksStep")
+    @Step
     public static List<CollectionOfIsbn> GetAllBooksStep(){
         Specifications.InstallSpecifications(Specifications.requestBookstoreSpec(), Specifications.responseSpecStatus(200));
         AllBooksModel resp = given()
@@ -32,6 +34,7 @@ public class BookStoreSteps {
     }
 
     @DisplayName("AddListOfBooksStep")
+    @Step
     public static void AddListOfBooksStep(LoginModel login, List<CollectionOfIsbn> collectionOfIsbns){
         Specifications.InstallSpecifications(Specifications.requestBookstoreSpec(), Specifications.responseSpecStatus(201));
         AddListOfBooks addListOfBooks = new AddListOfBooks(

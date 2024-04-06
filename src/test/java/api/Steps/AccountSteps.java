@@ -3,21 +3,19 @@ package api.Steps;
 import api.Specs.Specifications;
 import api.ValueObject.Model.LoginModel;
 import api.ValueObject.Model.LoginViewModel;
-import api.ValueObject.Model.MessageModel;
 import api.ValueObject.Model.TokenViewModel;
 import api.ValueObject.Result.CreateUserResult;
 import api.ValueObject.Result.GetUserResult;
-import io.restassured.http.Header;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import io.qameta.allure.restassured.AllureRestAssured;
 
 public class AccountSteps {
     @DisplayName("CreateUserStep")
+    @Step
     public static CreateUserResult CreateUserStep(LoginViewModel login){
         Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(201));
 
@@ -38,6 +36,7 @@ public class AccountSteps {
     }
 
     @DisplayName("GetUserStep")
+    @Step
     public static void GetUserStep(CreateUserResult user, TokenViewModel token){
         Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(200));
         GetUserResult resp = given()
@@ -58,6 +57,7 @@ public class AccountSteps {
     }
 
     @DisplayName("DeleteUserStep")
+    @Step
     public static void DeleteUserStep(CreateUserResult user, TokenViewModel token){
         Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(204));
 
@@ -71,9 +71,11 @@ public class AccountSteps {
     }
 
     @DisplayName("GenerateTokenStep")
+    @Step
     public static TokenViewModel GenerateTokenStep(LoginViewModel login){
         Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(200));
         TokenViewModel resp = given()
+                .filter(new AllureRestAssured())
                 .when()
                 .body(login)
                 .post("GenerateToken")
@@ -91,6 +93,7 @@ public class AccountSteps {
     }
 
     @DisplayName("LoginUserStep")
+    @Step
     public static LoginModel LoginUserStep(LoginViewModel login){
         Specifications.InstallSpecifications(Specifications.requestAccountSpec(), Specifications.responseSpecStatus(200));
         LoginModel resp = given()
