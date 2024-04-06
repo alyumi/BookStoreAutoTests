@@ -9,6 +9,7 @@ import api.ValueObject.Result.GetUserResult;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.DisplayName;
 
+import static api.Assertions.AccountAssert.*;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 import io.qameta.allure.restassured.AllureRestAssured;
@@ -26,11 +27,7 @@ public class AccountSteps {
                 .then().log().all()
                 .extract().body().as(CreateUserResult.class);
 
-        assertAll(
-                () -> assertEquals(login.getUserName(), resp.getUsername()),
-                () -> assertNotNull(resp.getUserId()),
-                () -> assertTrue(resp.getBooks().isEmpty())
-        );
+        SuccessfulUserCreationAssert(login, resp);
 
         return resp;
     }
@@ -49,11 +46,7 @@ public class AccountSteps {
                 .log().headers()
                 .extract().body().as(GetUserResult.class);
 
-        assertAll(
-                () -> assertEquals(user.getUserId(), resp.getUserId()),
-                () -> assertEquals(user.getUsername(), resp.getUsername()),
-                () -> assertTrue(resp.getBooks().isEmpty())
-        );
+        SuccessfulUserGetAssert(user, resp);
     }
 
     @DisplayName("DeleteUserStep")
@@ -82,12 +75,7 @@ public class AccountSteps {
                 .then().log().all()
                 .extract().body().as(TokenViewModel.class);
 
-        assertAll(
-                () -> assertNotNull(resp.getToken()),
-                () -> assertNotNull(resp.getExpires()),
-                () -> assertEquals("Success", resp.getStatus()),
-                () -> assertEquals("User authorized successfully.", resp.getResult())
-        );
+        SuccessfulAuthorizationAssert(resp);
 
         return resp;
     }
@@ -103,16 +91,7 @@ public class AccountSteps {
                 .then().log().all()
                 .extract().body().as(LoginModel.class);
 
-        assertAll(
-                () -> assertEquals(login.getUserName(), resp.getUsername()),
-                () -> assertEquals(login.getPassword(), resp.getPassword()),
-                () -> assertNotNull(resp.getUserId()),
-                () -> assertNotNull(resp.getToken()),
-                () -> assertNotNull(resp.getExpires()),
-                () -> assertNotNull(resp.getCreated_date()),
-                () -> assertFalse(resp.getIsActive())
-        );
-
+        SuccessfulLoginAssert(login, resp);
         return resp;
     }
 }

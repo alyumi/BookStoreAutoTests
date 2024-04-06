@@ -1,7 +1,6 @@
 package api.Parameters;
 
 import api.ValueObject.Model.LoginViewModel;
-import api.ValueObject.Model.User;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;

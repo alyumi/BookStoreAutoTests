@@ -5,18 +5,14 @@ import api.ValueObject.CollectionOfIsbn;
 import api.ValueObject.Model.LoginModel;
 import api.ValueObject.Model.LoginViewModel;
 import api.ValueObject.Model.TokenViewModel;
-import api.ValueObject.Model.User;
 import api.ValueObject.Result.CreateUserResult;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 
