@@ -19,14 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BookStoreSteps {
 
-    @BeforeAll
-    public static void SetUp(){
-        Specifications.InstallSpecifications(Specifications.requestBookstoreSpec());
-    }
-
     @Step
     @DisplayName("AddListOfBooksStep")
     public static void AddListOfBooksStep(LoginModel login, List<CollectionOfIsbn> collectionOfIsbns){
+        Specifications.InstallSpecifications(Specifications.requestBookstoreSpec());
         AddListOfBooks addListOfBooks = new AddListOfBooks(
                 login.getUserId(),
                 collectionOfIsbns
@@ -44,6 +40,7 @@ public class BookStoreSteps {
     @Step
     @DisplayName("GetAllBooksStep")
     public static List<CollectionOfIsbn> GetAllBooksStep(){
+        Specifications.InstallSpecifications(Specifications.requestBookstoreSpec());
         AllBooksModel resp = given()
                 .when()
                 .get("Books")

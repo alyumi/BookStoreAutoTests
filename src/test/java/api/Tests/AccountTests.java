@@ -1,6 +1,8 @@
 package api.Tests;
 
-import api.Parameters.UsersParameters;
+import api.Parameters.CreateAndAddBooksParameters;
+import api.Parameters.CreateAndGetParameters;
+import api.Parameters.CreateUserParameters;
 import api.ValueObject.CollectionOfIsbn;
 import api.ValueObject.Model.LoginModel;
 import api.ValueObject.Model.LoginViewModel;
@@ -34,7 +36,7 @@ public class AccountTests {
     @DisplayName("Create User")
     @Description("This test attempts to create user using generated user token")
     @Severity(SeverityLevel.CRITICAL)
-    @ArgumentsSource(UsersParameters.class)
+    @ArgumentsSource(CreateUserParameters.class)
     public void CreateUser(LoginViewModel user){
         userResult = CreateUserStep(user);
         token = GenerateTokenStep(user);
@@ -43,7 +45,7 @@ public class AccountTests {
     @ParameterizedTest
     @DisplayName("Create, Login And Get Client")
     @Severity(SeverityLevel.NORMAL)
-    @ArgumentsSource(UsersParameters.class)
+    @ArgumentsSource(CreateAndGetParameters.class)
     public void CreateAndGetClient(LoginViewModel user){
         userResult = CreateUserStep(user);
         token = GenerateTokenStep(user);
@@ -54,7 +56,7 @@ public class AccountTests {
     @ParameterizedTest
     @DisplayName("Create, Login, Get, Add List of Books Client")
     @Severity(SeverityLevel.CRITICAL)
-    @ArgumentsSource(UsersParameters.class)
+    @ArgumentsSource(CreateAndAddBooksParameters.class)
     public void CreateAddAndBooksClient(LoginViewModel user){
         userResult = CreateUserStep(user);
         token = GenerateTokenStep(user);

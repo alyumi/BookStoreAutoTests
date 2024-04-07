@@ -8,6 +8,7 @@ import api.ValueObject.Result.CreateUserResult;
 import api.ValueObject.Result.GetUserResult;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 import static api.Assertions.AccountAssert.*;
@@ -17,14 +18,10 @@ import io.qameta.allure.restassured.AllureRestAssured;
 
 public class AccountSteps {
 
-    @BeforeAll
-    public static void SetUp(){
-        Specifications.InstallSpecifications(Specifications.requestAccountSpec());
-    }
-
     @DisplayName("CreateUserStep")
     @Step
     public static CreateUserResult CreateUserStep(LoginViewModel login){
+        Specifications.InstallSpecifications(Specifications.requestAccountSpec());
         CreateUserResult resp = given()
                 .when()
                 .body(login)
@@ -41,6 +38,7 @@ public class AccountSteps {
     @DisplayName("GetUserStep")
     @Step
     public static void GetUserStep(CreateUserResult user, TokenViewModel token){
+        Specifications.InstallSpecifications(Specifications.requestAccountSpec());
         GetUserResult resp = given()
                 .header(
                         "Authorization", "Bearer " + token.getToken()
@@ -57,6 +55,7 @@ public class AccountSteps {
     @DisplayName("DeleteUserStep")
     @Step
     public static void DeleteUserStep(CreateUserResult user, TokenViewModel token){
+        Specifications.InstallSpecifications(Specifications.requestAccountSpec());
         given()
                 .header(
                         "Authorization", "Bearer " + token.getToken()
@@ -70,6 +69,7 @@ public class AccountSteps {
     @DisplayName("GenerateTokenStep")
     @Step
     public static TokenViewModel GenerateTokenStep(LoginViewModel login){
+        Specifications.InstallSpecifications(Specifications.requestAccountSpec());
         TokenViewModel resp = given()
                 .filter(new AllureRestAssured())
                 .when()
@@ -87,6 +87,7 @@ public class AccountSteps {
     @DisplayName("LoginUserStep")
     @Step
     public static LoginModel LoginUserStep(LoginViewModel login){
+        Specifications.InstallSpecifications(Specifications.requestAccountSpec());
         LoginModel resp = given()
                 .when()
                 .body(login)
